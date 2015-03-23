@@ -1,0 +1,52 @@
+﻿<Page
+  x:Class="SimpleOcr.MainPage"
+  xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
+  xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+  xmlns:local="using:SimpleOcr"
+  xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
+  xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
+  xmlns:n="using:Newport"
+  mc:Ignorable="d"
+  Background="{ThemeResource ApplicationPageBackgroundThemeBrush}">
+
+  <n:Interaction.Behaviors>
+    <n:SetViewModelBehavior />
+  </n:Interaction.Behaviors>
+
+  <Grid>
+    <Grid.ColumnDefinitions>
+      <ColumnDefinition />
+      <ColumnDefinition />
+    </Grid.ColumnDefinitions>
+    <Grid.RowDefinitions>
+      <RowDefinition
+        Height="Auto" />
+      <RowDefinition
+        Height="Auto" />
+      <RowDefinition />
+      <RowDefinition
+        Height="Auto" />
+    </Grid.RowDefinitions>
+
+    <TextBlock
+      Grid.Row="0"
+      Grid.ColumnSpan="2"
+      TextAlignment="Center"
+      Text="{Binding Path=Text}" />
+    <RadioButton
+      Grid.Row="1"
+      Grid.Column="0"
+      HorizontalAlignment="Center"
+      Content="Training" />
+    <RadioButton
+      Grid.Row="1"
+      Grid.Column="1"
+      HorizontalAlignment="Center"
+      Content="Live" />
+    <Button
+      Grid.Row="3"
+      Grid.ColumnSpan="2"
+      HorizontalAlignment="Center"
+      Content="OK" />
+  </Grid>
+</Page>
