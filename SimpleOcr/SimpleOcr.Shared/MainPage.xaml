@@ -4,10 +4,26 @@
   xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
   xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
   xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
-  xmlns:n="using:Newport"  
+  xmlns:n="using:Newport"
   xmlns:vm="using:SimpleOcr.ViewModels"
   mc:Ignorable="d"
   Background="{ThemeResource ApplicationPageBackgroundThemeBrush}">
+
+  <Page.Resources>
+    <n:BooleanInvertConverter x:Key="booleanInvertConverter"/>
+
+    <n:BooleanToBrushConverter
+      x:Key="booleanToBrushConverter">
+      <n:BooleanToBrushConverter.FalseBrush>
+        <SolidColorBrush
+          Color="Transparent" />
+      </n:BooleanToBrushConverter.FalseBrush>
+      <n:BooleanToBrushConverter.TrueBrush>
+        <SolidColorBrush
+          Color="Green" />
+      </n:BooleanToBrushConverter.TrueBrush>
+    </n:BooleanToBrushConverter>
+  </Page.Resources>
 
   <d:DesignProperties.DataContext>
     <vm:MainViewModel />
@@ -27,6 +43,8 @@
         Height="Auto" />
       <RowDefinition
         Height="Auto" />
+      <RowDefinition
+        Height="Auto" />
       <RowDefinition />
       <RowDefinition
         Height="Auto" />
@@ -38,20 +56,31 @@
       FontSize="36"
       TextAlignment="Center"
       Text="{Binding Path=Text}" />
+
     <RadioButton
       Grid.Row="1"
+      IsChecked="{Binding Path=IsTraining, Mode=TwoWay}"
       Grid.Column="0"
       HorizontalAlignment="Center"
       Content="Training" />
     <RadioButton
       Grid.Row="1"
       Grid.Column="1"
+      IsChecked="{Binding Path=IsTraining, Mode=TwoWay, Converter={StaticResource booleanInvertConverter}}"
       HorizontalAlignment="Center"
       Content="Live" />
 
+    <ComboBox
+      Margin="20,20,0,0"
+      ItemsSource="{Binding Path=Numbers}"
+      IsEnabled="{Binding Path=IsTraining}"
+      SelectedItem="{Binding Path=SelectedNumber, Mode=TwoWay}"
+      HorizontalAlignment="Left"
+      Grid.Row="2"/>
+
     <Border
       Margin="20"
-      Grid.Row="2"
+      Grid.Row="3"
       BorderBrush="White"
       BorderThickness="2,2,0,0"
       Grid.ColumnSpan="2">
@@ -60,6 +89,8 @@
         <ItemsControl.ItemTemplate>
           <DataTemplate>
             <Border
+              Background="{Binding Path=IsChecked, Converter={StaticResource booleanToBrushConverter}}"
+              n:UIElementExtensions.PointerMovedCommand="{Binding Path=TapCommand}"
               BorderBrush="White"
               BorderThickness="0,0,2,2">
             </Border>
@@ -75,10 +106,24 @@
       </ItemsControl>
     </Border>
 
-    <Button
+    <n:ProgressSpinner
+      Margin="100"
       Grid.Row="3"
       Grid.ColumnSpan="2"
+      IsBusy="{Binding Path=IsBusy}" />
+
+    <Button
+      Grid.Row="4"
+      Grid.Column="0"
       HorizontalAlignment="Center"
+      Command="{Binding Path=ResetCommmand}"
+      Content="Reset" />
+
+    <Button
+      Grid.Row="4"
+      Grid.Column="1"
+      HorizontalAlignment="Center"
+      Command="{Binding Path=OkCommmand}"
       Content="OK" />
   </Grid>
 
